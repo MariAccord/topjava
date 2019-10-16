@@ -4,8 +4,9 @@ import ru.javawebinar.topjava.model.Meal;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
-public interface UserMealRepository {
+public interface MealRepository {
     // null if not found, when updated
     Meal save(Meal meal, int userId);
 
@@ -15,7 +16,7 @@ public interface UserMealRepository {
     // null if not found
     Meal get(int id, int userId);
 
-    Collection<Meal> getAll(int userId);
+    List<Meal> getAll(int userId);
 
-    Collection<Meal> getBetween(LocalDateTime startTime, LocalDateTime endTime, int userId);
+    List<Meal> getBetween(LocalDateTime startTime, LocalDateTime endTime, int userId);
 }
