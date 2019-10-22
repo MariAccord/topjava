@@ -21,10 +21,8 @@ public class JdbcMealRepository implements MealRepository {
 
     private static final BeanPropertyRowMapper<Meal> ROW_MAPPER = BeanPropertyRowMapper.newInstance(Meal.class);
 
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private final SimpleJdbcInsert insertMeal;
@@ -43,7 +41,7 @@ public class JdbcMealRepository implements MealRepository {
     public Meal save(Meal meal, int userId) {
         MapSqlParameterSource map = new MapSqlParameterSource()
                 .addValue("id", meal.getId())
-                .addValue("datetime", Timestamp.valueOf(meal.getDateTime()))
+                .addValue("datetime", meal.getDateTime())
                 .addValue("description", meal.getDescription())
                 .addValue("calories", meal.getCalories())
                 .addValue("user_id", userId);
@@ -78,6 +76,6 @@ public class JdbcMealRepository implements MealRepository {
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return jdbcTemplate.query("SELECT * FROM meals WHERE datetime >=? AND datetime <? AND user_id=? ORDER BY datetime DESC",
-                ROW_MAPPER, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate), userId);
+                ROW_MAPPER, startDate, endDate, userId);
     }
 }
